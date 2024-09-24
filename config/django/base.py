@@ -15,6 +15,8 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 # Application definition
 LOCAL_APPS = [
     'siapp.core.apps.CoreConfig',
+    'siapp.common.apps.CommonConfig',
+    'siapp.users.apps.UsersConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -91,6 +93,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'users.BaseUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
