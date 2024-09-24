@@ -11,9 +11,9 @@ def create_user(*, email: str, password: str) -> BaseUser:
 
 
 @transaction.atomic
-def register(*, first_name: str | None, last_name: str | None, email: str | None, password: str, birthdate: str | None, phone_number: str | None) -> BaseUser:
+def register(*, email: str, password: str,  first_name: str | None, last_name: str | None, birthdate: str | None, phone_number: str | None) -> BaseUser:
 
     user = create_user(email=email, password=password)
-    create_profile(user, first_name, last_name, birthdate, phone_number)
+    create_profile(user=user, first_name=first_name, last_name=last_name, birthdate=birthdate, phone_number=phone_number)
 
     return user

@@ -5,7 +5,7 @@ import re
 
 
 def number_validator(password):
-    regex = re.compile('0-9')
+    regex = re.compile('[0-9]')
     if regex.search(password) is None:
         raise ValidationError(
             _('Password must contain at least one number'),
@@ -14,7 +14,7 @@ def number_validator(password):
 
 
 def letter_validator(password):
-    regex = re.compile('a-zA-Z')
+    regex = re.compile('[a-zA-Z]')
     if regex.search(password) is None:
         raise ValidationError(
             _('Password must contain at least one letter'),

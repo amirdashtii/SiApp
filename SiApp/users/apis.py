@@ -14,11 +14,10 @@ from siapp.users.validators import letter_validator, number_validator, special_c
 
 class ProfileApi(ApiAuthMixin, APIView):
 
-    class OutputProfileSerializer(serializers.Serializer):
+    class OutputProfileSerializer(serializers.ModelSerializer):
         class Meta:
             model = Profile
-            fields = ('id', 'email', 'first_name',
-                      'last_name', 'birthdate', 'phone_number')
+            fields = ('first_name', 'last_name', 'birthdate', 'phone_number')
 
     @extend_schema(responses=OutputProfileSerializer)
     def get(self, request):
@@ -29,7 +28,7 @@ class ProfileApi(ApiAuthMixin, APIView):
 class RegisterApi(APIView):
 
     class InputRegisterSerializer(serializers.Serializer):
-        email = serializers.EmailField(EmailValidator())
+        email = serializers.EmailField(validators=[EmailValidator()])
         first_name = serializers.CharField(max_length=255, required=False)
         last_name = serializers.CharField(max_length=255, required=False)
         birthdate = serializers.DateField(required=False)
@@ -48,6 +47,7 @@ class RegisterApi(APIView):
         def validate_email(self, email):
             if BaseUser.objects.filter(email=email).exists():
                 raise serializers.ValidationError("Email already exists")
+            return email
 
         def validate(self, data):
             if not data.get("password") or not data.get("confirm_password"):
@@ -55,8 +55,9 @@ class RegisterApi(APIView):
 
             if data.get("password") != data.get("confirm_password"):
                 raise serializers.ValidationError("Password does not match")
+            return data
 
-    class OutputRegisterSerializer(serializers.Serializer):
+    class OutputRegisterSerializer(serializers.ModelSerializer):
         class Meta:
             model = BaseUser
             fields = ('id', 'email')
