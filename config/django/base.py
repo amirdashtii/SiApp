@@ -14,6 +14,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 # Application definition
 LOCAL_APPS = [
+    'siapp.core.apps.CoreConfig',
 ]
 
 THIRD_PARTY_APPS = [
