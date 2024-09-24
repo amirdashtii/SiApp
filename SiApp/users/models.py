@@ -52,3 +52,15 @@ class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
 
     def is_staff(self):
         return self.is_admin
+
+class Profile(models.Model):
+    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    birthdate = models.DateField()
+    phone_number = models.CharField(max_length=255,unique=True)
+
+
+
+    def __str__(self):
+        return self.user.email 
