@@ -125,4 +125,7 @@ REST_FRAMEWORK = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+from config.settings.cors import *  # noqa
+from config.settings.jwt import *  # noqa
+from config.settings.sessions import *  # noqa
 from config.settings.swagger import *  # noqa
