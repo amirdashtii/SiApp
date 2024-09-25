@@ -17,6 +17,7 @@ LOCAL_APPS = [
     'siapp.core.apps.CoreConfig',
     'siapp.common.apps.CommonConfig',
     'siapp.users.apps.UsersConfig',
+    'siapp.authentication.apps.AuthenticationConfig',
 ]
 
 THIRD_PARTY_APPS = [
