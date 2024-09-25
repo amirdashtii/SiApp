@@ -3,6 +3,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import status, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 from siapp.api.mixins import ApiAuthMixin
@@ -58,10 +59,22 @@ class RegisterApi(APIView):
             return data
 
     class OutputRegisterSerializer(serializers.ModelSerializer):
+        
+        access_token = serializers.SerializerMethodField("get_access_token")
+        refresh_token = serializers.SerializerMethodField("get_refresh_token")
+
         class Meta:
             model = BaseUser
-            fields = ('id', 'email')
+            fields = ('id', 'email', 'access_token', 'refresh_token')
 
+        def get_access_token(self, user):
+            refresh = RefreshToken.for_user(user)
+            return str(refresh.access_token)
+
+        def get_refresh_token(self, user):
+            refresh = RefreshToken.for_user(user)
+            return str(refresh)
+        
     @extend_schema(request=InputRegisterSerializer, responses=OutputRegisterSerializer)
     def post(self, request):
         serializers = self.InputRegisterSerializer(data=request.data)
