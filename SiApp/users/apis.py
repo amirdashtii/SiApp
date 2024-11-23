@@ -18,7 +18,7 @@ class ProfileApi(ApiAuthMixin, APIView):
     class OutputProfileSerializer(serializers.ModelSerializer):
         class Meta:
             model = Profile
-            fields = ('first_name', 'last_name', 'birthdate', 'phone_number')
+            fields = ('first_name', 'last_name', 'birth_date', 'phone_number')
 
     @extend_schema(responses=OutputProfileSerializer)
     def get(self, request):
@@ -32,7 +32,7 @@ class RegisterApi(APIView):
         email = serializers.EmailField(validators=[EmailValidator()])
         first_name = serializers.CharField(max_length=255, required=False)
         last_name = serializers.CharField(max_length=255, required=False)
-        birthdate = serializers.DateField(required=False)
+        birth_date = serializers.DateField(required=False)
         phone_number = serializers.CharField(max_length=255, required=False)
 
         password = serializers.CharField(
@@ -85,7 +85,7 @@ class RegisterApi(APIView):
                 password=serializers.validated_data.get("password"),
                 first_name=serializers.validated_data.get("first_name"),
                 last_name=serializers.validated_data.get("last_name"),
-                birthdate=serializers.validated_data.get("birthdate"),
+                birth_date=serializers.validated_data.get("birth_date"),
                 phone_number=serializers.validated_data.get("phone_number")
             )
         except Exception as ex:
