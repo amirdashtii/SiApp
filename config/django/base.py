@@ -17,6 +17,7 @@ LOCAL_APPS = [
     'serviceyar.core.apps.CoreConfig',
     'serviceyar.common.apps.CommonConfig',
     'serviceyar.users.apps.UsersConfig',
+    'serviceyar.vehicle.apps.VehicleConfig',
     'serviceyar.authentication.apps.AuthenticationConfig',
 ]
 
@@ -129,3 +130,4 @@ from config.settings.cors import *  # noqa
 from config.settings.jwt import *  # noqa
 from config.settings.sessions import *  # noqa
 from config.settings.swagger import *  # noqa
+
