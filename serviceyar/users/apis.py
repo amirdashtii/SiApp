@@ -6,11 +6,11 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-from siapp.api.mixins import ApiAuthMixin
-from siapp.users.models import BaseUser, Profile
-from siapp.users.selectors import get_profile
-from siapp.users.services import register
-from siapp.users.validators import letter_validator, number_validator, special_char_validator
+from serviceyar.api.mixins import ApiAuthMixin
+from serviceyar.users.models import BaseUser, Profile
+from serviceyar.users.selectors import get_profile
+from serviceyar.users.services import register
+from serviceyar.users.validators import letter_validator, number_validator, special_char_validator
 
 
 class ProfileApi(ApiAuthMixin, APIView):
@@ -59,7 +59,7 @@ class RegisterApi(APIView):
             return data
 
     class OutputRegisterSerializer(serializers.ModelSerializer):
-        
+
         access_token = serializers.SerializerMethodField("get_access_token")
         refresh_token = serializers.SerializerMethodField("get_refresh_token")
 
@@ -74,7 +74,7 @@ class RegisterApi(APIView):
         def get_refresh_token(self, user):
             refresh = RefreshToken.for_user(user)
             return str(refresh)
-        
+
     @extend_schema(request=InputRegisterSerializer, responses=OutputRegisterSerializer)
     def post(self, request):
         serializers = self.InputRegisterSerializer(data=request.data)

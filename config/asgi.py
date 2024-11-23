@@ -1,5 +1,5 @@
 """
-ASGI config for SiApp project.
+ASGI config for ServiceYar project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

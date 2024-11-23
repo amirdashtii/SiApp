@@ -1,5 +1,5 @@
 """
-WSGI config for SiApp project.
+WSGI config for ServiceYar project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

@@ -1,6 +1,6 @@
 from typing import List, Dict, Any, Tuple
 
-from siapp.common.types import DjangoModelType
+from serviceyar.common.types import DjangoModelType
 
 
 def model_update(

@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class ApiConfig(AppConfig):
-    name = 'siapp.api'
+    name = 'serviceyar.api'

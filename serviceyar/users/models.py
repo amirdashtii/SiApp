@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-from siapp.common.models import BaseModel
+from serviceyar.common.models import BaseModel
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager as BUM, PermissionsMixin
 
@@ -39,7 +39,7 @@ class BaseUserManager(BUM):
 
 
 class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
-    
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(verbose_name="email address", unique=True)
 
@@ -56,14 +56,13 @@ class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         return self.is_admin
 
+
 class Profile(models.Model):
     user = models.OneToOneField(BaseUser, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     birth_date = models.DateField(null=True, blank=True)
-    phone_number = models.CharField(max_length=255,unique=True)
-
-
+    phone_number = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
-        return self.user.email 
+        return self.user.email
