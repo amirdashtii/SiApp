@@ -17,7 +17,7 @@ LOCAL_APPS = [
     'serviceyar.core.apps.CoreConfig',
     'serviceyar.common.apps.CommonConfig',
     'serviceyar.users.apps.UsersConfig',
-    'serviceyar.vehicle.apps.VehicleConfig',
+    'serviceyar.vehicles.apps.VehicleConfig',
     'serviceyar.authentication.apps.AuthenticationConfig',
 ]
 

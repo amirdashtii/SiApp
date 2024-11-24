@@ -6,7 +6,7 @@ from django.conf import settings
 
 from django.contrib import auth
 
-from rest_framework.permissions import IsAuthenticated, BasePermission
+from rest_framework.permissions import IsAuthenticated, BasePermission,IsAdminUser
 from rest_framework.authentication import BaseAuthentication
 
 from rest_framework_simplejwt.authentication import JWTAuthentication 
@@ -38,3 +38,9 @@ class ApiAuthMixin:
             JWTAuthentication,
     ]
     permission_classes: PermissionClassesType = (IsAuthenticated, )
+
+class ApiAdminAuthMixin:
+    authentication_classes: Sequence[Type[BaseAuthentication]] = [
+            JWTAuthentication,
+    ]
+    permission_classes: PermissionClassesType = (IsAuthenticated, IsAdminUser)
