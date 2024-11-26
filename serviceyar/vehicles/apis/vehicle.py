@@ -7,14 +7,14 @@ from serviceyar.api.mixins import ApiAuthMixin
 from serviceyar.vehicles.models import Vehicle
 from serviceyar.vehicles.validators import validate_year
 from serviceyar.vehicles.selectors.vehicle import get_vehicle_list, get_vehicle_by_id
-from serviceyar.vehicles.services.vehicles import create_vehicle
+from serviceyar.vehicles.services.vehicles import create_vehicle, update_vehicle, delete_vehicle
 
 
 class VehicleApi(ApiAuthMixin, APIView):
 
     class InputSerializer(serializers.Serializer):
         name = serializers.CharField(max_length=255, required=False)
-        model_id    = serializers.IntegerField(required=True)
+        model_id = serializers.IntegerField(required=True)
         color = serializers.CharField(max_length=255, required=False)
         year = serializers.IntegerField(
             validators=[validate_year], required=False)
@@ -54,17 +54,12 @@ class VehicleApi(ApiAuthMixin, APIView):
         serializers = self.InputSerializer(data=request.data)
         serializers.is_valid(raise_exception=True)
         try:
-            vehicle = create_vehicle(
-                user=request.user,
-                model_id=serializers.validated_data.get(
-                    "model_id"),
-                name=serializers.validated_data.get("name"),
-                color=serializers.validated_data.get("color"),
-                year=serializers.validated_data.get("year"),
-                plate_number=serializers.validated_data.get("plate_number"),
-                mileage=serializers.validated_data.get("mileage"),
-                insurance_date=serializers.validated_data.get("insurance_date")
-            )
+            vehicle_data = {
+                key: value for key, value in serializers.validated_data.items()
+            }
+
+            vehicle = create_vehicle(user=request.user, **vehicle_data)
+
         except Exception as ex:
             return Response(
                 f"Database Error: {ex}",
@@ -75,6 +70,16 @@ class VehicleApi(ApiAuthMixin, APIView):
 
 
 class VehicleDetailApi(ApiAuthMixin, APIView):
+
+    class InputSerializer(serializers.Serializer):
+        name = serializers.CharField(max_length=255, required=False)
+        model_id = serializers.IntegerField(required=False)
+        color = serializers.CharField(max_length=255, required=False)
+        year = serializers.IntegerField(
+            validators=[validate_year], required=False)
+        plate_number = serializers.CharField(max_length=255, required=False)
+        mileage = serializers.IntegerField(required=False)
+        insurance_date = serializers.DateField(required=False)
 
     class OutputSerializer(serializers.ModelSerializer):
         user = serializers.SerializerMethodField('get_user')
@@ -103,3 +108,52 @@ class VehicleDetailApi(ApiAuthMixin, APIView):
             )
         return Response(self.OutputSerializer(vehicle).data,
                         status=status.HTTP_200_OK)
+
+    @extend_schema(request=InputSerializer, responses=OutputSerializer)
+    def put(self, request, vehicle_id):
+        try:
+            vehicle = get_vehicle_by_id(
+                user=request.user, vehicle_id=vehicle_id)
+        except Exception as ex:
+            return Response(
+                {"error": f"Database Error: {str(ex)}"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = self.InputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            updated_vehicle = update_vehicle(
+                vehicle=vehicle,
+                **serializer.validated_data
+            )
+        except Exception as ex:
+            return Response(
+                {"error": f"Update Error: {str(ex)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        return Response(self.OutputSerializer(updated_vehicle).data,
+                        status=status.HTTP_200_OK)
+
+    @extend_schema(responses=None)
+    def delete(self, request, vehicle_id):
+        try:
+            vehicle = get_vehicle_by_id(
+                user=request.user, vehicle_id=vehicle_id)
+        except Exception as ex:
+            return Response(
+                {"error": f"Database Error: {str(ex)}"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        try:
+            delete_vehicle(vehicle)
+        except Exception as ex:
+            return Response(
+                {"error": f"Database ErrorL {str(ex)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
