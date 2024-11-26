@@ -1,3 +1,6 @@
 from django.contrib import admin
+from serviceyar.users.models import BaseUser, Profile
 
-# Register your models here.
+
+admin.site.register(BaseUser)
+admin.site.register(Profile)

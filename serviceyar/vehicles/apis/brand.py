@@ -16,9 +16,10 @@ class BrandApi(APIView):
             fields = ('id', 'name')
 
     @extend_schema(responses=OutputSerializer)
-    def get(self, request):
+    def get(self, request, vehicle_type_id):
+
         try:
-            query = get_brand()
+            query = get_brand(vehicle_type_id=vehicle_type_id)
         except Exception as ex:
             return Response(
                 f"Database Error: {ex}",
