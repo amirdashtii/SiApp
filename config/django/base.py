@@ -14,12 +14,12 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 # Application definition
 LOCAL_APPS = [
-    'serviceyar.core.apps.CoreConfig',
-    'serviceyar.common.apps.CommonConfig',
-    'serviceyar.users.apps.UsersConfig',
-    'serviceyar.vehicles.apps.VehicleConfig',
-    'serviceyar.autocare.apps.AutoCareConfig',
-    'serviceyar.authentication.apps.AuthenticationConfig',
+    'savarcare.core.apps.CoreConfig',
+    'savarcare.common.apps.CommonConfig',
+    'savarcare.users.apps.UsersConfig',
+    'savarcare.vehicles.apps.VehicleConfig',
+    'savarcare.care.apps.CareConfig',
+    'savarcare.authentication.apps.AuthenticationConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -74,7 +74,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='psql://postgres:123456@127.0.0.1:5432/serviceyar'),
+    'default': env.db('DATABASE_URL', default='psql://postgres:123456@127.0.0.1:5432/savarcare'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -117,8 +117,8 @@ STATIC_URL = 'static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'EXCEPTION_HANDLER': 'serviceyar.api.exception_handlers.drf_default_with_modifications_exception_handler',
-    # 'EXCEPTION_HANDLER': 'serviceyar.api.exception_handlers.hacksoft_proposed_exception_handler',
+    'EXCEPTION_HANDLER': 'savarcare.api.exception_handlers.drf_default_with_modifications_exception_handler',
+    # 'EXCEPTION_HANDLER': 'savarcare.api.exception_handlers.hacksoft_proposed_exception_handler',
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
@@ -131,4 +131,3 @@ from config.settings.cors import *  # noqa
 from config.settings.jwt import *  # noqa
 from config.settings.sessions import *  # noqa
 from config.settings.swagger import *  # noqa
-

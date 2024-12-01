@@ -1,5 +1,5 @@
 """
-WSGI config for ServiceYar project.
+WSGI config for SavarCare project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

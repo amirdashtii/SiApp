@@ -1,5 +1,5 @@
 """
-ASGI config for ServiceYar project.
+ASGI config for SavarCare project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
