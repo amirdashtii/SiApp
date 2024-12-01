@@ -1,5 +1,5 @@
 """
-WSGI config for SavarCare project.
+WSGI config for AutoBan project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

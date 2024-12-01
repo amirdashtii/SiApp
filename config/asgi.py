@@ -1,5 +1,5 @@
 """
-ASGI config for SavarCare project.
+ASGI config for AutoBan project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
